@@ -55,8 +55,9 @@ const columns = [
     className: "hidden xl:table-cell",
   },
   {
+    //changed key value as it brought errors
     header: "Paid",
-    key: "payable",
+    key: "paid",
     className: "hidden xl:table-cell",
   },
   {
