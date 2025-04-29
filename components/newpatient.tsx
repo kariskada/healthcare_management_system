@@ -152,14 +152,14 @@ const NewPatient = ({ data, type }: DataProps) => {
                   control={form.control}
                   name="first_name"
                   placeholder="First Name"
-                  label="First Name"
+                  label="First Name*"
                 />
                 <CustomInput
                   type="input"
                   control={form.control}
                   name="last_name"
                   placeholder="Last Name"
-                  label="Last Name"
+                  label="Last Name*"
                 />
               </div>
               <CustomInput
@@ -175,7 +175,7 @@ const NewPatient = ({ data, type }: DataProps) => {
                   control={form.control}
                   name="gender"
                   placeholder="Select gender"
-                  label="Gender"
+                  label="Gender*"
                   selectList={GENDER!}
                 />
                 <CustomInput
@@ -183,7 +183,7 @@ const NewPatient = ({ data, type }: DataProps) => {
                   control={form.control}
                   name="date_of_birth"
                   placeholder="01-05-2000"
-                  label="Date of Birth"
+                  label="Date of Birth*"
                   inputType="date"
                 />
               </div>
@@ -193,14 +193,14 @@ const NewPatient = ({ data, type }: DataProps) => {
                   control={form.control}
                   name="phone"
                   placeholder="07-1234-5678"
-                  label="Contact Number"
+                  label="Contact Number*"
                 />
                 <CustomInput
                   type="select"
                   control={form.control}
                   name="marital_status"
                   placeholder="Select marital status"
-                  label="Marital Status"
+                  label="Marital Status*"
                   selectList={MARITAL_STATUS!}
                 />
               </div>
