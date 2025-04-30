@@ -70,3 +70,6 @@ npm i react-icons
 regenerating database schema and data model
 npx prisma generate
 npx prisma db push
+
+
+2.38.41
