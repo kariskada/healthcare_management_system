@@ -45,14 +45,14 @@ export const AddVitalSigns = ({
     defaultValues: {
       patient_id: patientId,
       medical_id: medicalId,
-      body_temperature: undefined,
-      heartRate: undefined,
-      systolic: undefined,
-      diastolic: undefined,
-      respiratory_rate: undefined,
-      oxygen_saturation: undefined,
-      weight: undefined,
-      height: undefined,
+      body_temperature: null as unknown as number,
+      heartRate: "",
+      systolic: null as unknown as number,
+      diastolic: null as unknown as number,
+      respiratory_rate: null as unknown as number,
+      oxygen_saturation: null as unknown as number,
+      weight: null as unknown as number,
+      height: null as unknown as number,
     },
   });
 

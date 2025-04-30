@@ -40,7 +40,7 @@ const AppointmentDetailsPage = async ({
             <AppointmentDetails
               id={data?.id!}
               patient_id={data?.patient_id!}
-              appointment_date={data?.appointment_date!}
+              appointment_date={new Date(data?.appointment_date!)}
               time={data?.time!}
               notes={data?.note!}
             />
