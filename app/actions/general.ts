@@ -1,5 +1,6 @@
 "use server"
 
+import { ReviewFormValues, reviewSchema } from "@/components/dialogs/review-form";
 import db from "@/lib/db";
 import { clerkClient } from "@clerk/nextjs/server";
 
@@ -43,6 +44,32 @@ export async function deleteDataById(
     return {
       success: true,
       message: "Data deleted successfully",
+      status: 200,
+    };
+  } catch (error) {
+    console.log(error);
+
+    return {
+      success: false,
+      message: "Internal Server Error",
+      status: 500,
+    };
+  }
+}
+
+export async function createReview(values: ReviewFormValues) {
+  try {
+    const validatedFields = reviewSchema.parse(values);
+
+    await db.rating.create({
+      data: {
+        ...validatedFields,
+      },
+    });
+
+    return {
+      success: true,
+      message: "Review created successfully",
       status: 200,
     };
   } catch (error) {

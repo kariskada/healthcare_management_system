@@ -1,4 +1,4 @@
-hydration code for the server components is
+<!-- hydration code for the server components is
 
 
 import React from 'react'
@@ -8,7 +8,7 @@ import Navbar from '@/components/navbar'
 
 const ProtectedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="w-full h-screen flex bg-gray-200"> {/* Add flex here */}
+    <!-- <div className="w-full h-screen flex bg-gray-200"> {/* Add flex here */} -->
       
       {/* Sidebar Section */}
       <div className="w-[14%] md:w-[8%] lg:w-[16%] xl:w-[14%] h-full">
@@ -28,6 +28,6 @@ const ProtectedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
   )
 }
 
-export default ProtectedLayout
+export default ProtectedLayout -->
 
 TODO  : remove hydration by creating client component wrapper
