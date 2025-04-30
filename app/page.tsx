@@ -30,7 +30,7 @@ export default  async function Home() {
         </div>
         <div className="text-center 	flex flex-col items-center justify-center ">
           <p className="mb-8 text-center text-lg md:text-xl font-light text-gray-700">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+           The solution to digital health care management systems.
           </p>
 
           <div className="flex flex-col gap-4 md:flex-row">
