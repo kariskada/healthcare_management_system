@@ -1,4 +1,3 @@
-// @ts-nocheck - Disable TypeScript checking for this file to avoid Next.js 15 type conflicts
 import { MedicalHistoryContainer } from "@/components/medical-history-container";
 import PatientRatingContainer from "@/components/patient-rating-container";
 import ProfileImage from "@/components/profile-image";
