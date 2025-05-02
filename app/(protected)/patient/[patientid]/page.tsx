@@ -13,19 +13,10 @@ import Link from "next/link";
 import React from "react";
 
 // Define the correct parameter types for Next.js App Router
-// type Props = {
-//   params: { patientid: string }; // Note: this matches the folder name [patientid]
-//   searchParams: { [key: string]: string | string[] | undefined };
-// };
-
-interface PatientPageProps {
-  params: {
-    patientid: string;
-  };
-  searchParams?: Record<string, string | string[] | undefined>;
-}
-
-
+type PatientPageProps = {
+  params: { patientid: string }; // Note: this matches the folder name [patientid]
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
 const PatientProfile = async ({ params, searchParams }: PatientPageProps) => {
   // Get the patientId directly from params
