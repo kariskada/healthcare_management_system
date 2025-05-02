@@ -1,7 +1,3 @@
-// import { MedicalHistoryContainer } from "@/components/medical-history-container";
-// import { PatientRatingContainer } from "@/components/patient-rating-container";
-// import { ProfileImage } from "@/components/profile-image";
-// import MedicalHistoryContainer from "@/components/medical-history-container";
 import { MedicalHistoryContainer } from "@/components/medical-history-container";
 import PatientRatingContainer from "@/components/patient-rating-container";
 import ProfileImage from "@/components/profile-image";
@@ -10,36 +6,68 @@ import { getPatientFullDataById } from "@/utils/services/patient";
 import { auth } from "@clerk/nextjs/server";
 import { format } from "date-fns";
 import Link from "next/link";
-import React from "react";
+import { Suspense } from "react";
 
-// Define the correct parameter types for Next.js App Router
-type PatientPageProps = {
-  params: { patientid: string }; // Note: this matches the folder name [patientid]
-  searchParams: { [key: string]: string | string[] | undefined };
+// Define types for the components
+type PatientPageContentProps = {
+  patientId: string;
+  searchParams: Record<string, string | string[] | undefined>;
 };
 
-const PatientProfile = async ({ params, searchParams }: PatientPageProps) => {
-  // Get the patientId directly from params
-  const patientId = params.patientid; // Note: lowercase to match folder name
-  console.log("URL patientId parameter:", patientId);
-  
+type PatientPageProps = {
+  params: { patientid: string };
+  searchParams: Record<string, string | string[] | undefined>;
+};
+
+type SmallCardProps = {
+  label: string;
+  value: string | null | undefined;
+};
+
+// Define a type for the patient data that includes possible null values
+type PatientData = {
+  id?: string;
+  first_name?: string | null;
+  last_name?: string | null;
+  email?: string | null;
+  img?: string | null;
+  colorCode?: string | null;
+  totalAppointments?: number;
+  gender?: string | null;
+  date_of_birth?: Date | string | null;
+  phone?: string | null;
+  marital_status?: string | null;
+  blood_group?: string | null;
+  address?: string | null;
+  emergency_contact_name?: string | null;
+  emergency_contact_number?: string | null;
+  lastVisit?: Date | string | null;
+  [key: string]: any; // Allow for additional properties
+};
+
+// Create a wrapper component to handle the page rendering
+function PatientPageContent({ patientId, searchParams }: PatientPageContentProps) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PatientPageData patientId={patientId} searchParams={searchParams} />
+    </Suspense>
+  );
+}
+
+// This is the actual component that will fetch and display data
+async function PatientPageData({ patientId, searchParams }: PatientPageContentProps) {
   let id = patientId;
   const cat = typeof searchParams?.cat === 'string' ? searchParams.cat : "medical-history";
 
   if (patientId === "self") {
     const { userId } = await auth();
     console.log("Auth userId:", userId);
-    id = userId!;
+    id = userId || patientId; // Provide a fallback if userId is null
   }
 
-  // console.log("Patient ID being used:", id);inspector for debugging purposes
-  // console.log("Patient ID type:", typeof id);
-  
   try {
     const response = await getPatientFullDataById(id);
-    // console.log("API Response:", JSON.stringify(response, null, 2));  code inspector for the response
     
-    // Check if the API call was successful and data exists
     if (!response.success || !response.data) {
       return (
         <div className="bg-gray-100/60 h-full rounded-xl py-6 px-3 2xl:p-6 flex flex-col items-center justify-center">
@@ -52,9 +80,9 @@ const PatientProfile = async ({ params, searchParams }: PatientPageProps) => {
       );
     }
 
-    const { data } = response;
+    const { data } = response as { data: PatientData };
 
-    const SmallCard = ({ label, value }: { label: string; value: string }) => (
+    const SmallCard = ({ label, value }: SmallCardProps) => (
       <div className="w-full md:w-1/3">
         <span className="text-sm text-gray-500">{label}</span>
         <p className="text-sm md:text-base capitalize">{value || "Not provided"}</p>
@@ -94,8 +122,7 @@ const PatientProfile = async ({ params, searchParams }: PatientPageProps) => {
                 />
                 <SmallCard
                   label="Date of Birth"
-                   
-                  value={format(data?.date_of_birth!, "yyyy-MM-dd")}
+                  value={data.date_of_birth ? format(data.date_of_birth, "yyyy-MM-dd") : "Not specified"}
                 />
                 <SmallCard label={"Phone Number"} value={data.phone || "Not provided"} />
               </div>
@@ -117,11 +144,7 @@ const PatientProfile = async ({ params, searchParams }: PatientPageProps) => {
                 />
                 <SmallCard
                   label="Last Visit"
-                  value={
-                    data.lastVisit
-                      ? format(new Date(data.lastVisit), "yyyy-MM-dd")
-                      : "No last visit"
-                  }
+                  value={data.lastVisit ? format(data.lastVisit, "yyyy-MM-dd") : "No last visit"}
                 />
               </div>
             </Card>
@@ -177,13 +200,17 @@ const PatientProfile = async ({ params, searchParams }: PatientPageProps) => {
             </div>
           </div>
 
-          <PatientRatingContainer id={id!} />
+          <PatientRatingContainer id={id} />
         </div>
       </div>
     );
   } catch (error) {
     console.error("Error fetching patient data:", error);
+    return <div>Error loading patient data</div>;
   }
-};
+}
 
-export default PatientProfile;
+// The main page component that Next.js will use
+export default function PatientPage({ params, searchParams }: PatientPageProps) {
+  return <PatientPageContent patientId={params.patientid} searchParams={searchParams} />;
+}
