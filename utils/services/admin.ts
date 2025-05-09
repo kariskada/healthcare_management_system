@@ -75,3 +75,28 @@ export async function getAdminDashboardStats() {
     return { error: true, message: "Something went wrong" };
   }
 }
+
+export async function getServices() {
+  try {
+    const data = await db.services.findMany({
+      orderBy: { service_name: "asc" },
+    });
+
+    if (!data) {
+      return {
+        success: false,
+        message: "Data not found",
+        status: 404,
+        data: [],
+      };
+    }
+
+    return {
+      success: true,
+      data,
+    };
+  } catch (error) {
+    console.log(error);
+    return { success: false, message: "Internal Server Error", status: 500 };
+  }
+}
